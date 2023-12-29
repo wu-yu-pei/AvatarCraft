@@ -1,8 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/avatar-craft/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/avatar-craft/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/avatar-craft",
+  "projects": {
+    "avatar-craft": {
+      "type": "application",
+      "root": "apps/avatar-craft",
+      "entryFile": "main",
+      "sourceRoot": "apps/avatar-craft/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/avatar-craft/tsconfig.app.json"
+      }
+    },
+    "admin": {
+      "type": "application",
+      "root": "apps/admin",
+      "entryFile": "main",
+      "sourceRoot": "apps/admin/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/admin/tsconfig.app.json"
+      }
+    }
   }
 }

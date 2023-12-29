@@ -1,4 +1,7 @@
 const defConfig = {
+  nest_server_port: 5210,
+  prefix: '/api',
+
   swagger_path: 'doc',
   swagger_title: 'Avatar Craft 接口文档',
   swagger_description: 'Avatar Craft 接口文档',
@@ -12,9 +15,7 @@ const defConfig = {
   mysql_server_port: 3306,
   mysql_server_username: 'root',
   mysql_server_password: '123456',
-  mysql_server_database: 'avatar Craft',
-
-  nest_server_port: 5210,
+  mysql_server_database: 'avatar_craft',
 
   jwt_secret: 'abvdc',
   jwt_access_token_expires_time: '30m',

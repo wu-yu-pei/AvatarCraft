@@ -53,6 +53,6 @@ jobs:
             pm2 ls
             pm2 stop avatar-craft
             pm2 delete avatar-craft
-            cd /home/nodeServer/avatar-craft/dist
+            cd /home/nodeServer/avatar-craft/dist/apps/avatar-craft
             pwd
-            pm2 start ./main.js --name avatar-craft
+            pm2 start --name avatar-craft npm -- run start:prod
