@@ -36,7 +36,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
           # #ARGS: "-avz --delete"
-          SOURCE: './dist/*'
+          SOURCE: './'
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
@@ -53,6 +53,6 @@ jobs:
             pm2 ls
             pm2 stop avatar-craft
             pm2 delete avatar-craft
-            cd /home/nodeServer/avatar-craft
+            cd /home/nodeServer/avatar-craft/dist
             pwd
             pm2 start ./main.js --name avatar-craft
