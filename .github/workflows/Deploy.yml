@@ -1,0 +1,58 @@
+name: WORK
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [master]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  cp:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    name: install
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # install
+      #Runs a single command using the runners shell
+      - name: build
+        run: |
+          node -v
+          npm install -g pnpm
+          pnpm install
+          npm run build
+
+      # copy
+      - name: copy
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN }}
+          # #ARGS: "-avz --delete"
+          SOURCE: './dist/*'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.ACCESS_TARGET_PATH }}
+
+      #run
+      - name: run
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.ACCESS_TOKEN }}
+          port: 22
+          script: |
+            pm2 ls
+            pm2 stop avatar-craft
+            pm2 delete avatar-craft
+            cd /home/nodeServer/avatar-craft/dist
+            pwd
+            pm2 start ./main.js --name avatar-craft
