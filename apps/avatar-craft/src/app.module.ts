@@ -42,7 +42,7 @@ function setupOptionalModules() {
         logging: true,
         entities: [],
         poolSize: 10,
-        connectorPackage: 'mysql2',
+        connectorPackage: 'mysql',
       };
     },
     inject: [ConfigService],
