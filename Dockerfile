@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 5210
 
-CMD ["node", "dist/main.js"]
+CMD ["npm", "run", "start"]
