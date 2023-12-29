@@ -45,4 +45,4 @@ jobs:
             docker build -t avatar-craft-server .
             docker stop avatar-craft-server
             docker rm avatar-craft-server
-            docker run -d --name=avatar-craft-server -p 3002:3000 avatar-craft-server
+            docker run -d --name=avatar-craft-server -p 5211:5210 avatar-craft-server
