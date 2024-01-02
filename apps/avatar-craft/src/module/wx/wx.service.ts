@@ -44,4 +44,16 @@ export class WxService {
 
     return res.data;
   }
+
+  // 根据code 获取手机号
+  async getPhone(code): Promise<any> {
+    const { access_token } = await this.getAccessToken();
+
+    const res = await axios.post(
+      `https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=${access_token}`,
+      { code },
+    );
+
+    return res.data.phone_info;
+  }
 }

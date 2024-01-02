@@ -8,7 +8,7 @@ const defConfig = {
   version: '1.0',
 
   jwt_secret: 'abvdc',
-  jwt_access_token_expires_time: '30m',
+  jwt_access_token_expires_time: '30000m',
 
   app_id: 'wxfd9e4d0f7ffcdbf4',
   app_secret: '72efdd0e4f4801632b4c5e65aa63b48b',

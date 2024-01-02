@@ -13,17 +13,17 @@ export class UserController {
 
   @Post('login')
   async userLogin(@Body() payload) {
-    const { code } = payload;
+    const { phoneCode, loginCode } = payload;
 
-    const { session_key, openid } = await this.wxService.login(code);
+    const { session_key, openid } = await this.wxService.login(loginCode);
 
     const user = await this.userService.findByOpenid(openid);
 
     if (!user) {
-      await this.userService.createUser(openid);
+      await this.userService.createUser(openid, phoneCode);
     }
 
-    const token = await this.utilsService.getAccessToken({
+    const token = this.utilsService.getAccessToken({
       session_key,
       openid,
     });
