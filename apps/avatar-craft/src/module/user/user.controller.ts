@@ -29,7 +29,7 @@ export class UserController {
     });
 
     return {
-      token,
+      data: { token },
     };
   }
 }
