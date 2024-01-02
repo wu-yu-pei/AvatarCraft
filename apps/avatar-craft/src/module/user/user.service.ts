@@ -21,12 +21,10 @@ export class UserService {
     return res;
   }
 
-  async createUser(openid: string, phoneCode: string): Promise<void> {
-    const { phoneNumber } = await this.wxService.getPhone(phoneCode);
+  async createUser(openid: string): Promise<void> {
     const user = new User();
 
     user.openid = openid;
-    user.phone = phoneNumber;
     user.create_date = new Date();
     user.update_date = new Date();
 
