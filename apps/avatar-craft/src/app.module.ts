@@ -8,9 +8,14 @@ import defConfig from './config/def.config';
 import devConfig from './config/dev.config';
 import prodConfig from './config/prod.config';
 import { isDev } from './utils';
+import { UserModule } from './module/user/user.module';
+import { WxModule } from './module/wx/wx.module';
+import { JwtModule } from '@nestjs/jwt';
+import { UtilsModule } from './module/common/utils/utils.module';
+import { User } from './module/user/user.entity';
 
 @Module({
-  imports: [...setupOptionalModules()],
+  imports: [...setupOptionalModules(), UserModule, WxModule, UtilsModule],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -27,6 +32,19 @@ function setupOptionalModules() {
     load: [defConfig, isDev() ? devConfig : prodConfig],
   });
 
+  const _JwtModule = JwtModule.registerAsync({
+    global: true,
+    useFactory(configService: ConfigService) {
+      return {
+        secret: configService.get('jwt_secret'),
+        signOptions: {
+          expiresIn: configService.get('jwt_access_token_expires_time'),
+        },
+      };
+    },
+    inject: [ConfigService],
+  });
+
   const _TypeOrmModule = TypeOrmModule.forRootAsync({
     useFactory(configService: ConfigService) {
       console.log(configService.get('mysql_server_host'));
@@ -37,16 +55,16 @@ function setupOptionalModules() {
         port: configService.get('mysql_server_port'),
         username: configService.get('mysql_server_username'),
         password: configService.get('mysql_server_password'),
-        database: 'avatar_craft' || configService.get('mysql_server_database'),
-        synchronize: true,
+        database: configService.get('mysql_server_database'),
+        // synchronize: true,
         logging: true,
-        entities: [],
+        entities: [User],
         poolSize: 10,
-        connectorPackage: 'mysql',
+        connectorPackage: 'mysql2',
       };
     },
     inject: [ConfigService],
   });
 
-  return [_ConfigModule, _TypeOrmModule];
+  return [_ConfigModule, _JwtModule, _TypeOrmModule];
 }

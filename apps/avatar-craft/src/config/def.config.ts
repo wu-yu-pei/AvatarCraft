@@ -19,7 +19,9 @@ const defConfig = {
 
   jwt_secret: 'abvdc',
   jwt_access_token_expires_time: '30m',
-  jwt_refresh_token_expres_time: '7d',
+
+  app_id: 'wxfd9e4d0f7ffcdbf4',
+  app_secret: '72efdd0e4f4801632b4c5e65aa63b48b',
 };
 
 export default () => defConfig;
