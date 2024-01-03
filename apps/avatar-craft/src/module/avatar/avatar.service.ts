@@ -10,11 +10,13 @@ export class AvatarService {
     private readonly avatarRepository: Repository<Avatar>,
   ) {}
 
-  async getAvatarList(): Promise<Avatar[]> {
+  async getAvatarList({ page, pageSize }): Promise<Avatar[]> {
     return await this.avatarRepository.find({
       where: {
         status: 1,
       },
+      skip: pageSize * (page - 1),
+      take: pageSize,
       relations: {
         avatar_images: true,
       },
