@@ -13,11 +13,23 @@ import { WxModule } from './module/wx/wx.module';
 import { JwtModule } from '@nestjs/jwt';
 import { UtilsModule } from './module/common/utils/utils.module';
 import { User } from './module/user/user.entity';
+import { AvatarModule } from './module/avatar/avatar.module';
+import { AvatarImageService } from './module/avatar_image/avatar_image.service';
+import { AvatarImageModule } from './module/avatar_image/avatar_image.module';
+import { Avatar } from './module/avatar/avatar.entity';
+import { AvatarImage } from './module/avatar_image/avatar_image.entity';
 
 @Module({
-  imports: [...setupOptionalModules(), UserModule, WxModule, UtilsModule],
+  imports: [
+    ...setupOptionalModules(),
+    UserModule,
+    WxModule,
+    UtilsModule,
+    AvatarModule,
+    AvatarImageModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AvatarImageService],
 })
 export class AppModule {}
 
@@ -56,9 +68,9 @@ function setupOptionalModules() {
         username: configService.get('mysql_server_username'),
         password: configService.get('mysql_server_password'),
         database: configService.get('mysql_server_database'),
-        // synchronize: true,
+        synchronize: true,
         logging: true,
-        entities: [User],
+        entities: [User, Avatar, AvatarImage],
         poolSize: 10,
         connectorPackage: 'mysql2',
       };
