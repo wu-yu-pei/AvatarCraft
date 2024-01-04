@@ -10,6 +10,7 @@ export class AvatarService {
     private readonly avatarRepository: Repository<Avatar>,
   ) {}
 
+  // 列表
   async getAvatarList({ page, pageSize }): Promise<Avatar[]> {
     return await this.avatarRepository.find({
       where: {
@@ -21,6 +22,11 @@ export class AvatarService {
         avatar_images: true,
       },
     });
+  }
+
+  // 创建
+  async createAvatar(payload) {
+    return await this.avatarRepository.create({});
   }
 
   // 收藏加一
