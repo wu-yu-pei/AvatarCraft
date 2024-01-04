@@ -45,14 +45,14 @@ export class AvatarLikeService {
   }
 
   async findLikeLog(avatar_id, user_id) {
-    const isHasLike = await this.avatarLikeRepository.findOne({
+    const likeLog = await this.avatarLikeRepository.findOne({
       where: {
         avatar_id,
         user_id,
       },
     });
 
-    return isHasLike;
+    return likeLog;
   }
 
   // 更新点赞状态

@@ -23,16 +23,38 @@ export class AvatarService {
     });
   }
 
-  // 点赞加一
+  // 收藏加一
   async likeIncrement(avatar_id: number) {
     await this.avatarRepository.increment({ id: avatar_id }, 'like_count', 1);
 
     return null;
   }
 
-  // 点赞减一
+  // 收藏减一
   async likeDecrement(avatar_id: number) {
     await this.avatarRepository.decrement({ id: avatar_id }, 'like_count', 1);
+
+    return null;
+  }
+
+  // 点赞加一
+  async supportIncrement(avatar_id: number) {
+    await this.avatarRepository.increment(
+      { id: avatar_id },
+      'support_count',
+      1,
+    );
+
+    return null;
+  }
+
+  // 点赞减一
+  async supportDecrement(avatar_id: number) {
+    await this.avatarRepository.decrement(
+      { id: avatar_id },
+      'support_count',
+      1,
+    );
 
     return null;
   }
