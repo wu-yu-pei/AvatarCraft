@@ -27,6 +27,7 @@ export class UtilsService {
       {
         openid: payload.openid,
         session_key: payload.session_key,
+        id: payload.id,
       },
       {
         expiresIn:

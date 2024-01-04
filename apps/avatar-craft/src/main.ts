@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { INestApplication } from '@nestjs/common';
+import { FormatResponseInterceptor } from './interceptor/format-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,6 +10,8 @@ async function bootstrap() {
   usePrefix(app);
 
   const PORT = app.get(ConfigService).get('nest_server_port');
+
+  app.useGlobalInterceptors(new FormatResponseInterceptor());
 
   await app.listen(PORT);
 

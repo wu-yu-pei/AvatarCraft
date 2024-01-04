@@ -2,6 +2,7 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { WxService } from '../wx/wx.service';
 import { UserService } from './user.service';
 import { UtilsService } from '../common/utils/utils.service';
+import { User } from './user.entity';
 
 @Controller('user')
 export class UserController {
@@ -16,8 +17,7 @@ export class UserController {
     const { loginCode } = payload;
 
     const { session_key, openid } = await this.wxService.login(loginCode);
-
-    const user = await this.userService.findByOpenid(openid);
+    const user: User = await this.userService.findByOpenid(openid);
 
     if (!user) {
       await this.userService.createUser(openid);
@@ -26,10 +26,11 @@ export class UserController {
     const token = this.utilsService.getAccessToken({
       session_key,
       openid,
+      id: user.id,
     });
 
     return {
-      data: { token },
+      token,
     };
   }
 }

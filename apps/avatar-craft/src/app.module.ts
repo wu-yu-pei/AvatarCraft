@@ -14,10 +14,17 @@ import { JwtModule } from '@nestjs/jwt';
 import { UtilsModule } from './module/common/utils/utils.module';
 import { User } from './module/user/user.entity';
 import { AvatarModule } from './module/avatar/avatar.module';
-import { AvatarImageService } from './module/avatar_image/avatar_image.service';
 import { AvatarImageModule } from './module/avatar_image/avatar_image.module';
 import { Avatar } from './module/avatar/avatar.entity';
 import { AvatarImage } from './module/avatar_image/avatar_image.entity';
+import { AvatarLikeModule } from './module/avatar_like/avatar_like.module';
+import { AvatarSupportModule } from './module/avatar_support/avatar_support.module';
+import { AvatarLike } from './module/avatar_like/avatar_like.entity';
+import { AvatarSupport } from './module/avatar_support/avatar_support.entity';
+import { CategoryModule } from './module/category/category.module';
+import { Category } from './module/category/category.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { LoginGuard } from './guard/auth.guard';
 
 @Module({
   imports: [
@@ -27,9 +34,18 @@ import { AvatarImage } from './module/avatar_image/avatar_image.entity';
     UtilsModule,
     AvatarModule,
     AvatarImageModule,
+    AvatarLikeModule,
+    AvatarSupportModule,
+    CategoryModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AvatarImageService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: LoginGuard,
+    },
+  ],
 })
 export class AppModule {}
 
@@ -70,7 +86,14 @@ function setupOptionalModules() {
         database: configService.get('mysql_server_database'),
         synchronize: true,
         logging: true,
-        entities: [User, Avatar, AvatarImage],
+        entities: [
+          User,
+          Avatar,
+          Category,
+          AvatarImage,
+          AvatarLike,
+          AvatarSupport,
+        ],
         poolSize: 10,
         connectorPackage: 'mysql2',
       };
