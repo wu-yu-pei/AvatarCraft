@@ -13,6 +13,8 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new FormatResponseInterceptor());
 
+  app.useGlobalFilters(new HttpExceptionFilter());
+
   await app.listen(PORT);
 
   console.log(`|--> Nest is running on http://localhost:${PORT} <--|`);

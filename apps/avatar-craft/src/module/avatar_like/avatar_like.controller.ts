@@ -13,7 +13,7 @@ export class AvatarLikeController {
   @Post()
   @Auth()
   async avatarLike(@Body() payload, @UserInfo() user) {
-    const { avatar_id, flag = 1 } = payload;
-    return await this.avatarLikeService.updateLikeCount(avatar_id, user, flag);
+    const { avatar_id } = payload;
+    return await this.avatarLikeService.updateLikeCount(avatar_id, user);
   }
 }
