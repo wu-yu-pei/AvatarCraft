@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './category.entity';
 import { Repository } from 'typeorm';
+import { log } from 'console';
 
 @Injectable()
 export class CategoryService {
@@ -19,6 +20,7 @@ export class CategoryService {
         level: 'DESC',
       },
     });
+    console.log('a');
 
     return result;
   }
