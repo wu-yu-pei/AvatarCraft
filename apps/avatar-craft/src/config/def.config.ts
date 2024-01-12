@@ -1,3 +1,4 @@
+import * as path from 'path';
 const defConfig = {
   nest_server_port: 5210,
   prefix: '/api',
@@ -12,6 +13,8 @@ const defConfig = {
 
   app_id: 'wxfd9e4d0f7ffcdbf4',
   app_secret: '72efdd0e4f4801632b4c5e65aa63b48b',
+
+  fileSavePath: path.join(__dirname, '../../../tmp/images'),
 };
 
 export default () => defConfig;

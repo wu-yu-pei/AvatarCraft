@@ -35,4 +35,8 @@ export class UtilsService {
       },
     );
   }
+
+  getUUid() {
+    return crypto.randomUUID();
+  }
 }

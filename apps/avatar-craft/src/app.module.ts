@@ -11,6 +11,7 @@ import { isDev } from './utils';
 import { UserModule } from './module/user/user.module';
 import { WxModule } from './module/wx/wx.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { UtilsModule } from './module/common/utils/utils.module';
 import { User } from './module/user/user.entity';
 import { AvatarModule } from './module/avatar/avatar.module';
@@ -25,6 +26,7 @@ import { CategoryModule } from './module/category/category.module';
 import { Category } from './module/category/category.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { LoginGuard } from './guard/auth.guard';
+import * as path from 'path';
 
 @Module({
   imports: [
@@ -75,8 +77,6 @@ function setupOptionalModules() {
 
   const _TypeOrmModule = TypeOrmModule.forRootAsync({
     useFactory(configService: ConfigService) {
-      console.log(configService.get('mysql_server_host'));
-
       return {
         type: 'mysql',
         host: configService.get('mysql_server_host'),
@@ -85,7 +85,7 @@ function setupOptionalModules() {
         password: configService.get('mysql_server_password'),
         database: configService.get('mysql_server_database'),
         synchronize: true,
-        logging: true,
+        logging: false,
         entities: [
           User,
           Avatar,
@@ -101,5 +101,15 @@ function setupOptionalModules() {
     inject: [ConfigService],
   });
 
-  return [_ConfigModule, _JwtModule, _TypeOrmModule];
+  const _ServeStaticModule = ServeStaticModule.forRootAsync({
+    useFactory(configService: ConfigService) {
+      const fileSavePath = configService.get('fileSavePath');
+      console.log(fileSavePath);
+
+      return [{ serveRoot: '/images', rootPath: path.join(fileSavePath) }];
+    },
+    inject: [ConfigService],
+  });
+
+  return [_ConfigModule, _JwtModule, _TypeOrmModule, _ServeStaticModule];
 }
