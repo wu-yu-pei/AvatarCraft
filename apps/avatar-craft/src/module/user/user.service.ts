@@ -12,7 +12,7 @@ export class UserService {
   ) {}
 
   async findByOpenid(openid: string): Promise<User> {
-    const res = this.userRepository.findOne({
+    const res = await this.userRepository.findOne({
       where: {
         openid,
       },
