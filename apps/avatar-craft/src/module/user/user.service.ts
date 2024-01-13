@@ -21,13 +21,13 @@ export class UserService {
     return res;
   }
 
-  async createUser(openid: string): Promise<void> {
+  async createUser(openid: string): Promise<User> {
     const user = new User();
 
     user.openid = openid;
     user.create_date = new Date();
     user.update_date = new Date();
 
-    await this.userRepository.save(user);
+    return await this.userRepository.save(user);
   }
 }

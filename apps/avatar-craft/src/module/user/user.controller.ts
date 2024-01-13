@@ -17,10 +17,10 @@ export class UserController {
     const { loginCode } = payload;
 
     const { session_key, openid } = await this.wxService.login(loginCode);
-    const user: User = await this.userService.findByOpenid(openid);
+    let user: User = await this.userService.findByOpenid(openid);
 
     if (!user) {
-      await this.userService.createUser(openid);
+      user = await this.userService.createUser(openid);
     }
 
     const token = this.utilsService.getAccessToken({
