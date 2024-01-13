@@ -85,7 +85,7 @@ function setupOptionalModules() {
         password: configService.get('mysql_server_password'),
         database: configService.get('mysql_server_database'),
         synchronize: true,
-        logging: false,
+        logging: true,
         entities: [
           User,
           Avatar,
